@@ -20,6 +20,11 @@
     }
   },
   "function": {
+    "superherogetsaved": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
     "superheroremoteapi": {
       "build": true,
       "providerPlugin": "awscloudformation",
@@ -39,6 +44,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_superherogetsaved_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superherogetsaved"
+        }
+      ]
+    },
+    "AMPLIFY_function_superherogetsaved_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superherogetsaved"
+        }
+      ]
+    },
     "AMPLIFY_function_superheroremoteapi_deploymentBucketName": {
       "usedBy": [
         {
