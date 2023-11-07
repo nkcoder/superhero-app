@@ -1,0 +1,23 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-superheroapp-dev-192916-authRole",
+      "UnauthRoleArn": "arn:aws:iam::373936881955:role/amplify-superheroapp-dev-192916-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::373936881955:role/amplify-superheroapp-dev-192916-authRole",
+      "Region": "ap-southeast-2",
+      "DeploymentBucketName": "amplify-superheroapp-dev-192916-deployment",
+      "UnauthRoleName": "amplify-superheroapp-dev-192916-unauthRole",
+      "StackName": "amplify-superheroapp-dev-192916",
+      "StackId": "arn:aws:cloudformation:ap-southeast-2:373936881955:stack/amplify-superheroapp-dev-192916/bfc060b0-7d47-11ee-b497-0692a8996aeb",
+      "AmplifyAppId": "d2gn8tw520hegx"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d2gn8tw520hegx",
+          "type": "manual"
+        }
+      }
+    }
+  }
+}
