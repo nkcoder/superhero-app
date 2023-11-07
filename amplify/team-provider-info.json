@@ -21,7 +21,7 @@
       "function": {
         "superheroremoteapi": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",
-          "s3Key": "amplify-builds/superheroremoteapi-4457714350424e616349-build.zip"
+          "s3Key": "amplify-builds/superheroremoteapi-59523836356736646b42-build.zip"
         },
         "superherosave": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",

@@ -45,7 +45,10 @@ const Search = ({ searchKey, searchSuperHeros, updateSearchKey }) => {
     <div className="search">
       <input
         value={searchKey}
+        type="text"
         placeholder="Search super heros"
+        minLength="2"
+        maxLength="30"
         onChange={event => updateSearchKey(event.target.value)}
       />
       <button onClick={searchSuperHeros}>Search</button>

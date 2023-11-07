@@ -1,12 +1,19 @@
 exports.handler = async event => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const baseURL = "https://superheroapi.com/api/122136422408017955/search";
-  console.log(`finding super heros by name: ${event.arguments.name}`);
+  const searchKey = event.arguments.name;
+  console.log(`finding super heros by name: ${searchKey}`);
 
   try {
-    const response = await fetch(`${baseURL}/${event.arguments.name}`);
+    const response = await fetch(`${baseURL}/${searchKey}`);
     const body = await response.json();
     console.log(`found super heros: ${JSON.stringify(body.results)}`);
+
+    if (!body.results) {
+      console.log(`no super heros match the search: ${searchKey}`);
+      return [];
+    }
+
     const superHeros = body.results.map(r => {
       const { powerstats } = { ...r };
       return {
@@ -24,10 +31,7 @@ exports.handler = async event => {
     return superHeros;
   } catch (e) {
     console.log(e);
-    return {
-      statusCode: 500,
-      message: "error occurred while fetching super hero by name",
-    };
+    return [];
   }
 };
 

@@ -78,6 +78,11 @@
   font-size: 1.6rem;
 }
 
+.search {
+  display: flex;
+  gap: 2rem;
+}
+
 .search button {
   color: inherit;
   font-family: inherit;
