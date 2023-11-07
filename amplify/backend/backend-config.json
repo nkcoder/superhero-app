@@ -1,4 +1,29 @@
 {
+  "api": {
+    "superheroapi": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 7
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "function": {
+    "superheroremoteapi": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
   "hosting": {
     "amplifyhosting": {
       "providerPlugin": "awscloudformation",
@@ -7,6 +32,22 @@
     }
   },
   "parameters": {
+    "AMPLIFY_function_superheroremoteapi_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superheroremoteapi"
+        }
+      ]
+    },
+    "AMPLIFY_function_superheroremoteapi_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superheroremoteapi"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {

@@ -1,0 +1,54 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Superhero {
+  id: ID!
+  name: String!
+  image: String
+  powerstats: Powerstats
+}
+
+type Powerstats {
+  intelligence: Int
+  strength: Int
+  speed: Int
+  durability: Int
+  power: Int
+  combat: Int
+}
+
+type SuperheroSaved {
+  id: ID!
+  userId: ID!
+  superheroId: ID!
+  name: String!
+  image: String
+  powerstats: Powerstats
+}
+
+input PowerstatsUpdateRequest {
+  intelligence: Int
+  strength: Int
+  speed: Int
+  durability: Int
+  power: Int
+  combat: Int
+}
+
+input SuperHeroUpdateRequest {
+  id: ID!
+  name: String!
+  image: String
+  powerstats: PowerstatsUpdateRequest
+}
+
+type Query {
+  listSuperheroes(name: String): [Superhero] @function(name: "superheroremoteapi-${env}")
+  listUserSavedSuperheroes(userId: ID!): [SuperheroSaved]
+}
+
+type Mutation {
+  savedSuperhero(userId: ID!, updateSuperHeroReq: SuperHeroUpdateRequest): SuperheroSaved
+}
