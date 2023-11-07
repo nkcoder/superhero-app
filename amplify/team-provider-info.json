@@ -21,11 +21,11 @@
       "function": {
         "superheroremoteapi": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",
-          "s3Key": "amplify-builds/superheroremoteapi-6d726175384d53574335-build.zip"
+          "s3Key": "amplify-builds/superheroremoteapi-362b5178506745687a44-build.zip"
         },
         "superherosave": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",
-          "s3Key": "amplify-builds/superherosave-77314137616a7335554e-build.zip"
+          "s3Key": "amplify-builds/superherosave-5a576b3675643367754b-build.zip"
         }
       },
       "api": {
