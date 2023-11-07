@@ -7,7 +7,9 @@
           "additionalAuthenticationProviders": [],
           "defaultAuthentication": {
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 7
+              "apiKeyExpirationDate": "2024-01-06T11:52:02.800Z",
+              "apiKeyExpirationDays": 60,
+              "description": "dev-key"
             },
             "authenticationType": "API_KEY"
           }
@@ -19,6 +21,11 @@
   },
   "function": {
     "superheroremoteapi": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "superherosave": {
       "build": true,
       "providerPlugin": "awscloudformation",
       "service": "Lambda"
@@ -48,6 +55,22 @@
         }
       ]
     },
+    "AMPLIFY_function_superherosave_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superherosave"
+        }
+      ]
+    },
+    "AMPLIFY_function_superherosave_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "superherosave"
+        }
+      ]
+    },
     "AMPLIFY_hosting_amplifyhosting_appId": {
       "usedBy": [
         {
@@ -63,6 +86,12 @@
           "resourceName": "amplifyhosting"
         }
       ]
+    }
+  },
+  "storage": {
+    "superherodb": {
+      "providerPlugin": "awscloudformation",
+      "service": "DynamoDB"
     }
   }
 }

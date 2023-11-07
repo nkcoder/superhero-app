@@ -6,7 +6,7 @@ input AMPLIFY {
 type Superhero {
   id: ID!
   name: String!
-  image: String
+  image: Image
   powerstats: Powerstats
 }
 
@@ -19,12 +19,20 @@ type Powerstats {
   combat: Int
 }
 
+type Image {
+  url: String!
+}
+
+input ImageInput {
+  url: String!
+}
+
 type SuperheroSaved {
   id: ID!
   userId: ID!
   superheroId: ID!
   name: String!
-  image: String
+  image: Image
   powerstats: Powerstats
 }
 
@@ -40,15 +48,16 @@ input PowerstatsUpdateRequest {
 input SuperHeroUpdateRequest {
   id: ID!
   name: String!
-  image: String
+  image: ImageInput
   powerstats: PowerstatsUpdateRequest
 }
 
 type Query {
-  listSuperheroes(name: String): [Superhero] @function(name: "superheroremoteapi-${env}")
-  listUserSavedSuperheroes(userId: ID!): [SuperheroSaved]
+  searchSuperheroes(name: String): [Superhero] @function(name: "superheroremoteapi-${env}")
+  getSavedSuperheroes(userId: ID!): [SuperheroSaved]
 }
 
 type Mutation {
   savedSuperhero(userId: ID!, updateSuperHeroReq: SuperHeroUpdateRequest): SuperheroSaved
+    @function(name: "superherosave-${env}")
 }

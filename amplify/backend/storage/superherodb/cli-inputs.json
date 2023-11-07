@@ -1,0 +1,18 @@
+{
+  "resourceName": "superherodb",
+  "tableName": "superherodb",
+  "partitionKey": {
+    "fieldName": "id",
+    "fieldType": "number"
+  },
+  "gsi": [
+    {
+      "name": "name_index",
+      "partitionKey": {
+        "fieldName": "name",
+        "fieldType": "string"
+      }
+    }
+  ],
+  "triggerFunctions": []
+}
