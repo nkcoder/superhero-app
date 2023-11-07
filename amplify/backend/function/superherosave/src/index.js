@@ -1,5 +1,7 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+// import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+// import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
@@ -22,5 +24,5 @@ exports.handler = async event => {
 
   const response = await docClient.send(command);
   console.log(`put item response: ${response}`);
-  return response;
+  return id;
 };

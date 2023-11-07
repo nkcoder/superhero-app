@@ -1,10 +1,10 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { ScanCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
+const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
+const { ScanCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export const handler = async event => {
+exports.handler = async event => {
   console.log(`Event received: ${JSON.stringify(event)}`);
 
   const userId = Number(event.arguments.userId);

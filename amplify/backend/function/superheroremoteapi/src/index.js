@@ -1,18 +1,13 @@
-/**
- * @type {import('@types/aws-lambda').APIGatewayProxyHandler}
- */
-export const handler = async event => {
+exports.handler = async event => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const baseURL = "https://superheroapi.com/api/122136422408017955/search";
-  console.log(`finding super hero by name: ${event.name}`);
+  console.log(`finding super heros by name: ${event.arguments.name}`);
 
   try {
-    const response = await fetch(`${baseURL}/${event.name}`);
+    const response = await fetch(`${baseURL}/${event.arguments.name}`);
     const body = await response.json();
-    return {
-      statusCode: response.status,
-      data: body.results,
-    };
+    console.log(`found super heros: ${body.results}`);
+    return body.results;
   } catch (e) {
     console.log(e);
     return {

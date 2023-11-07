@@ -57,6 +57,5 @@ type Query {
 }
 
 type Mutation {
-  savedSuperhero(userId: ID!, updateSuperHeroReq: SuperHeroUpdateRequest): SuperheroSaved
-    @function(name: "superherosave-${env}")
+  savedSuperhero(userId: ID!, updateSuperHeroReq: SuperHeroUpdateRequest): ID @function(name: "superherosave-${env}")
 }
