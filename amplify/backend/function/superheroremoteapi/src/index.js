@@ -6,8 +6,22 @@ exports.handler = async event => {
   try {
     const response = await fetch(`${baseURL}/${event.arguments.name}`);
     const body = await response.json();
-    console.log(`found super heros: ${body.results}`);
-    return body.results;
+    console.log(`found super heros: ${JSON.stringify(body.results)}`);
+    const superHeros = body.results.map(r => {
+      const { powerstats } = { ...r };
+      return {
+        ...r,
+        powerstats: {
+          intelligence: nullOr(powerstats.intelligence, "0"),
+          strength: nullOr(powerstats.strength, "0"),
+          speed: nullOr(powerstats.speed, "0"),
+          durability: nullOr(powerstats.durability, "0"),
+          power: nullOr(powerstats.power, "0"),
+          combat: nullOr(powerstats.combat, "0"),
+        },
+      };
+    });
+    return superHeros;
   } catch (e) {
     console.log(e);
     return {
@@ -15,4 +29,8 @@ exports.handler = async event => {
       message: "error occurred while fetching super hero by name",
     };
   }
+};
+
+const nullOr = (value, defaultValue) => {
+  return value !== "null" ? value : defaultValue;
 };
