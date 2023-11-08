@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+This is a simple application built for a superhero enthusiast, that can perform the following functions:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+1. Allow a user to search for their favourite superhero.
 
-## Available Scripts
+2. Select the superhero, see their image, and power stats.
 
-In the project directory, you can run:
+3. Edit the power stats
 
-### `npm start`
+4. Save the image and stats to be viewed later.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+So, essentially, the app would allow a user to search superheroes by name, see their details, edit them and view all their saved superheroes.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Tech Stack
 
-### `npm test`
+The application utilize the following tech stacks:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Amplify
+- AppSync (GraphQL)
+- DynamoDB
+- Lambda
+- node.js (18.x)
+- JavaScript
 
-### `npm run build`
+## Architecture
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![Super Hero Architecture](./docs/superhero-architecture.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Development
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Run the tests:**
 
-### `npm run eject`
+```bash
+auto/test
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+**Run the application locally:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+auto/local_run
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+Then you should be able to access the application: `http://localhost:3000/`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+**Deploy local changes to AWS:**
 
-## Learn More
+> You may need to [configure Amplify](https://docs.amplify.aws/cli/start/install/#option-2-follow-the-instructions) first.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+auto/publish
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## TroubleShooting
 
-### Code Splitting
+[Trouble Shooting](./docs/troubleshooting.md)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Todo
 
-### Analyzing the Bundle Size
+Although I've try my best during the day, but there are still plenty of tasks/optimizations for the application:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- user sign up/login: integrate authentication/authorization with Cognito
+- fix the lost focus of Input component when searching or updating super heros
+- style the application so that they're better organized
+- dockerize the application
