@@ -75,12 +75,35 @@
 
 .superhero span {
   display: block;
-  font-size: 1.6rem;
+  font-size: 1.3rem;
+}
+
+.superhero .powerstats {
+  display: flex;
+  flex-direction: column;
+}
+
+.superhero button {
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  border-radius: 0%;
+  font-size: 1.4rem;
+  font-weight: 500;
+  background-color: #edc84b;
+  padding: 1rem 3rem;
+  cursor: pointer;
+  transition: all 0.2s;
 }
 
 .search {
   display: flex;
+  align-items: center;
   gap: 2rem;
+}
+
+.search input {
+  height: 3.5rem;
 }
 
 .search button {
@@ -90,7 +113,7 @@
   font-size: 1.4rem;
   font-weight: 500;
   background-color: #edc84b;
-  padding: 1.4rem 3.2rem;
+  padding: 1rem 3rem;
   cursor: pointer;
   transition: all 0.2s;
 }
