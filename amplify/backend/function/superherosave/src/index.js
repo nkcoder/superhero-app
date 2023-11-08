@@ -1,5 +1,3 @@
-// import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-// import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { PutCommand, DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 

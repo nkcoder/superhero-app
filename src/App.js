@@ -8,12 +8,11 @@ import awsExports from "./aws-exports.js";
 Amplify.configure(awsExports);
 
 function App() {
-  console.log("at the beginning of App");
-
   const [searchKey, setSearchKey] = useState("");
   const [superHeros, setSuperHeros] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedHero, setSelectedHero] = useState({});
+  const [mySavedSuperHeros, setMySavedSuperHeros] = useState([]);
 
   const searchSuperHeros = async () => {
     console.log(`start to search super heros by :${searchKey}`);
@@ -21,6 +20,7 @@ function App() {
       const searchResult = await API.graphql(graphqlOperation(searchSuperheroes, { name: searchKey }));
       console.log(`search by ${searchKey}, result is ${JSON.stringify(searchResult)}`);
       setSuperHeros(searchResult.data.searchSuperheroes);
+      setEditMode(false);
     } catch (err) {
       console.log("error searching super heros", err);
     }
@@ -57,40 +57,27 @@ function App() {
   };
 
   const getMySuperHeros = async () => {
-    console.log(`start to search super heros by :${searchKey}`);
     const userId = 1;
     try {
       const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { userId: userId }));
       console.log(`get super heros of ${userId}, result is ${JSON.stringify(mySuperHeroes)}`);
-      setSuperHeros(mySuperHeroes.data.getSavedSuperheroes);
+      setMySavedSuperHeros(mySuperHeroes.data.getSavedSuperheroes);
+      setSuperHeros(mySavedSuperHeros);
+      setEditMode(false);
     } catch (err) {
       console.log("error getting my super heroes", err);
     }
   };
 
-  const toggleEditMode = superHero => {
-    setSelectedHero(superHero);
-    console.log(`editMode: ${editMode}`);
-
-    if (editMode) {
-      saveSuperHeros(selectedHero);
-    }
-
-    setEditMode(!editMode);
-  };
-
-  const Search = ({ searchKey, searchSuperHeros }) => {
+  const Search = ({ searchSuperHeros }) => {
     return (
       <div className="search">
         <input
           value={searchKey}
-          type="text"
           placeholder="Search super heros"
-          minLength="2"
-          maxLength="30"
           onChange={event => setSearchKey(event.target.value)}
         />
-        <button onClick={searchSuperHeros}>Search</button>
+        <button onClick={() => searchSuperHeros(searchKey)}>Search</button>
         <button onClick={getMySuperHeros}>Get my super heros</button>
       </div>
     );
@@ -98,7 +85,8 @@ function App() {
 
   const SuperHeros = ({ superheros }) => {
     if (superheros.length === 0) {
-      return <p>No super heros found, please try something else.</p>;
+      // alert("No super heros found, please try something else.");
+      return <h3>No super heros found, please try something else.</h3>;
     }
 
     const superHeros = superheros.map(hero => <SuperHero key={hero.id} superhero={hero} />);
@@ -107,38 +95,100 @@ function App() {
   };
 
   const updatePowerStat = updatedData => {
+    console.log(`select hero before: ${JSON.stringify(selectedHero)}`);
     setSelectedHero({
       ...selectedHero,
-      ...updatedData,
+      powerstats: {
+        ...selectedHero.powerstats,
+        ...updatedData,
+      },
     });
+    const selectedHeroAfter = {
+      ...selectedHero,
+      powerstats: {
+        ...selectedHero.powerstats,
+        ...updatedData,
+      },
+    };
+    console.log(`selected hero after: ${JSON.stringify(selectedHeroAfter)}`);
+  };
+
+  const handleCancel = () => {
+    setEditMode(false);
+    setSelectedHero({});
+  };
+
+  const handleSave = superHero => {
+    setSelectedHero(superHero);
+    console.log(`editMode: ${editMode}`);
+
+    saveSuperHeros(selectedHero);
+
+    setEditMode(false);
+  };
+
+  const handleEdit = superHero => {
+    setSelectedHero(superHero);
+    setEditMode(true);
   };
 
   const SuperHero = ({ superhero }) => {
+    console.log(`superHero: ${JSON.stringify(superhero)}, selectedSuperHero: ${JSON.stringify(selectedHero)}`);
     return (
       <li className="superhero">
         <img src={superhero.image.url} alt="SuperHero" />
         <div>
           <h3>{superhero.name}</h3>
           {!editMode ? (
-            <ShowPowerStats powerstats={superhero.powerstats} />
+            <ShowPowerStats
+              powerstats={selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats}
+            />
           ) : (
-            <EditPowerStats powerstats={selectedHero.powerstats} updatePowerStat={updatePowerStat} />
+            <EditPowerStats
+              powerstats={selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats}
+              updatePowerStat={updatePowerStat}
+            />
           )}
-          <button onClick={e => toggleEditMode(superhero)}>{editMode ? "Save" : "Edit"}</button>
+          <Button className="btn" superHero={superhero} />
         </div>
       </li>
     );
   };
 
+  const Button = ({ superHero }) => {
+    if (editMode) {
+      return (
+        <>
+          <button onClick={handleCancel}>Cancel</button>
+          <button onClick={e => handleSave(selectedHero)}>Save</button>
+        </>
+      );
+    } else {
+      const savedHeroIds = mySavedSuperHeros.map(hero => hero.id);
+      const alreadySaved = savedHeroIds.includes(superHero.id);
+      return (
+        <>
+          {alreadySaved ? (
+            <button className="saved">Saved</button>
+          ) : (
+            <button className="nonsaved" onClick={e => handleEdit(superHero)}>
+              Edit
+            </button>
+          )}
+        </>
+      );
+    }
+  };
+
   const ShowPowerStats = ({ powerstats }) => {
     return (
       <div className="powerstats">
-        <li>combat: {powerstats.combat}</li>
-        <li>durability: {powerstats.durability}</li>
-        <li>intelligence: {powerstats.intelligence}</li>
-        <li>power: {powerstats.power}</li>
-        <li>speed: {powerstats.speed}</li>
-        <li>strength: {powerstats.strength}</li>
+        <span>combat: {powerstats.combat}</span>
+        <span>durability: {powerstats.durability}</span>
+        <span>intelligence: {powerstats.intelligence}</span>
+        <span>power: {powerstats.power}</span>
+        <span>speed: {powerstats.speed}</span>
+        <span>strength: {powerstats.strength}</span>
       </div>
     );
   };

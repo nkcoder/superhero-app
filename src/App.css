@@ -96,6 +96,11 @@
   transition: all 0.2s;
 }
 
+.superhero .btn {
+  display: flex;
+  flex-direction: row;
+}
+
 .search {
   display: flex;
   align-items: center;
@@ -119,5 +124,5 @@
 }
 
 .search button:hover {
-  background-color: #e9bb24;
+  background-color: #edb705;
 }
