@@ -20,7 +20,12 @@ exports.handler = async event => {
     TableName: `superherodb-${env}`,
   });
 
-  const response = await docClient.send(scanCommand);
-  console.log(`scan response: ${JSON.stringify(response)}`);
-  return response.Items;
+  try {
+    const response = await docClient.send(scanCommand);
+    console.log(`scan response: ${JSON.stringify(response)}`);
+    return response.Items;
+  } catch (err) {
+    console.log(err);
+    return [];
+  }
 };

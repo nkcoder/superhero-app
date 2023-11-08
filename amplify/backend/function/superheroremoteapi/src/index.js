@@ -2,6 +2,11 @@ exports.handler = async event => {
   console.log(`EVENT: ${JSON.stringify(event)}`);
   const baseURL = "https://superheroapi.com/api/122136422408017955/search";
   const searchKey = event.arguments.name;
+  if (!searchKey || searchKey.length === 0) {
+    console.log(`search key is empty`);
+    return [];
+  }
+
   console.log(`finding super heros by name: ${searchKey}`);
 
   try {
@@ -30,7 +35,7 @@ exports.handler = async event => {
     });
     return superHeros;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return [];
   }
 };

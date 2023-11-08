@@ -43,7 +43,8 @@ Then you should be able to access the application: `http://localhost:3000/`.
 
 **Deploy local changes to AWS:**
 
-> You may need to [configure Amplify](https://docs.amplify.aws/cli/start/install/#option-2-follow-the-instructions) first.
+- 1. You may need to [configure Amplify](https://docs.amplify.aws/cli/start/install/#option-2-follow-the-instructions) first.
+- 2. Please update to your own [Super Hero API access key](./amplify/backend/function/superheroremoteapi/src/index.js)
 
 ```bash
 auto/publish

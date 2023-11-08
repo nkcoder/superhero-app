@@ -21,7 +21,12 @@ exports.handler = async event => {
     },
   });
 
-  const response = await docClient.send(command);
-  console.log(`put item response: ${response}`);
-  return id;
+  try {
+    const response = await docClient.send(command);
+    console.log(`put item response: ${response}`);
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+  return true;
 };
