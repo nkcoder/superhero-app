@@ -18,7 +18,7 @@ exports.handler = async event => {
       name: name,
       powerstats: powerstats,
       image: image,
-      userId: userId,
+      userId: Number(userId),
     },
   });
 

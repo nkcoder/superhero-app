@@ -29,7 +29,7 @@ input ImageInput {
 
 type SuperheroSaved {
   id: ID!
-  userId: ID!
+  userId: String!
   name: String!
   image: Image
   powerstats: Powerstats
@@ -53,9 +53,10 @@ input SuperHeroUpdateRequest {
 
 type Query {
   searchSuperheroes(name: String): [Superhero] @function(name: "superheroremoteapi-${env}")
-  getSavedSuperheroes(userId: ID!): [SuperheroSaved] @function(name: "superherogetsaved-${env}")
+  getSavedSuperheroes(userId: String!): [SuperheroSaved] @function(name: "superherogetsaved-${env}")
 }
 
 type Mutation {
-  savedSuperhero(userId: ID!, updateSuperHeroReq: SuperHeroUpdateRequest): ID @function(name: "superherosave-${env}")
+  savedSuperhero(userId: String!, updateSuperHeroReq: SuperHeroUpdateRequest): ID
+    @function(name: "superherosave-${env}")
 }

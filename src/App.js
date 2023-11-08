@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState } from "react";
 import { Amplify, API, graphqlOperation } from "aws-amplify";
-import { searchSuperheroes } from "./graphql/queries.js";
+import { searchSuperheroes, getSavedSuperheroes } from "./graphql/queries.js";
 import { savedSuperhero } from "./graphql/mutations.js";
 
 import awsExports from "./aws-exports.js";
@@ -56,6 +56,18 @@ function App() {
     }
   };
 
+  const getMySuperHeros = async () => {
+    console.log(`start to search super heros by :${searchKey}`);
+    const userId = 1;
+    try {
+      const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { userId: userId }));
+      console.log(`get super heros of ${userId}, result is ${JSON.stringify(mySuperHeroes)}`);
+      setSuperHeros(mySuperHeroes.data.getSavedSuperheroes);
+    } catch (err) {
+      console.log("error getting my super heroes", err);
+    }
+  };
+
   const toggleEditMode = superHero => {
     setSelectedHero(superHero);
     console.log(`editMode: ${editMode}`);
@@ -79,6 +91,7 @@ function App() {
           onChange={event => setSearchKey(event.target.value)}
         />
         <button onClick={searchSuperHeros}>Search</button>
+        <button onClick={getMySuperHeros}>Get my super heros</button>
       </div>
     );
   };

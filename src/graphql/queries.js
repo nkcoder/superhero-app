@@ -24,7 +24,7 @@ export const searchSuperheroes = /* GraphQL */ `
   }
 `;
 export const getSavedSuperheroes = /* GraphQL */ `
-  query GetSavedSuperheroes($userId: ID!) {
+  query GetSavedSuperheroes($userId: String!) {
     getSavedSuperheroes(userId: $userId) {
       id
       userId

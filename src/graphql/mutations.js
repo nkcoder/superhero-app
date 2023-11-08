@@ -3,7 +3,7 @@
 
 export const savedSuperhero = /* GraphQL */ `
   mutation SavedSuperhero(
-    $userId: ID!
+    $userId: String!
     $updateSuperHeroReq: SuperHeroUpdateRequest
   ) {
     savedSuperhero(userId: $userId, updateSuperHeroReq: $updateSuperHeroReq)
