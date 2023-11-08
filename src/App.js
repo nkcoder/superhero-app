@@ -70,22 +70,22 @@ function App() {
   };
 
   const Search = ({ searchSuperHeros }) => {
+    console.log(`Search is rendering`);
     return (
       <div className="search">
-        <input
-          value={searchKey}
-          placeholder="Search super heros"
-          onChange={event => setSearchKey(event.target.value)}
-        />
-        <button onClick={() => searchSuperHeros(searchKey)}>Search</button>
-        <button onClick={getMySuperHeros}>Get my super heros</button>
+        <input value={searchKey} onChange={e => setSearchKey(e.target.value)} />
+        <button type="button" onClick={() => searchSuperHeros(searchKey)}>
+          Search
+        </button>
+        <button type="button" onClick={getMySuperHeros}>
+          Get my super heros
+        </button>
       </div>
     );
   };
 
   const SuperHeros = ({ superheros }) => {
     if (superheros.length === 0) {
-      // alert("No super heros found, please try something else.");
       return <h3>No super heros found, please try something else.</h3>;
     }
 
@@ -133,21 +133,16 @@ function App() {
   };
 
   const SuperHero = ({ superhero }) => {
-    console.log(`superHero: ${JSON.stringify(superhero)}, selectedSuperHero: ${JSON.stringify(selectedHero)}`);
+    // console.log(`superHero: ${JSON.stringify(superhero)}, selectedSuperHero: ${JSON.stringify(selectedHero)}`);
     return (
       <li className="superhero">
         <img src={superhero.image.url} alt="SuperHero" />
         <div>
           <h3>{superhero.name}</h3>
-          {!editMode ? (
-            <ShowPowerStats
-              powerstats={selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats}
-            />
+          {editMode && selectedHero.id === superhero.id ? (
+            <EditPowerStats powerstats={selectedHero.powerstats} updatePowerStat={updatePowerStat} />
           ) : (
-            <EditPowerStats
-              powerstats={selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats}
-              updatePowerStat={updatePowerStat}
-            />
+            <ShowPowerStats powerstats={superhero.powerstats} />
           )}
           <Button className="btn" superHero={superhero} />
         </div>
@@ -159,8 +154,12 @@ function App() {
     if (editMode) {
       return (
         <>
-          <button onClick={handleCancel}>Cancel</button>
-          <button onClick={e => handleSave(selectedHero)}>Save</button>
+          <button type="button" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button type="button" onClick={e => handleSave(selectedHero)}>
+            Save
+          </button>
         </>
       );
     } else {
