@@ -50,6 +50,8 @@ Then you should be able to access the application: `http://localhost:3000/`.
 auto/publish
 ```
 
+My test environment on AWS: https://dev.d1psk6i91gcajq.amplifyapp.com/
+
 ## TroubleShooting
 
 [Trouble Shooting](./docs/troubleshooting.md)
@@ -62,3 +64,4 @@ Although I've try my best during the day, but there are still plenty of tasks/op
 - fix the lost focus of Input component when searching or updating super heros
 - style the application so that they're better organized
 - dockerize the application
+- test react app
