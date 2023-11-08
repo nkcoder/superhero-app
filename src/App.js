@@ -140,34 +140,35 @@ function App() {
   };
 
   const SuperHero = ({ superhero }) => {
-    const powerstats = selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats;
+    const isCurrentHero = selectedHero.id === superhero.id;
+    const powerstats = isCurrentHero ? selectedHero.powerstats : superhero.powerstats;
     return (
       <li className="superhero">
         <img src={superhero.image.url} alt="SuperHero" />
-        <div>
+        <div className="superhero-detail">
           <h3>{superhero.name}</h3>
-          {editMode ? (
+          {editMode && isCurrentHero ? (
             <EditPowerStats powerstats={powerstats} updatePowerStat={updatePowerStat} />
           ) : (
             <ShowPowerStats powerstats={powerstats} />
           )}
-          <Button className="btn" superHero={superhero} />
+          <Button superHero={superhero} isCurrentHero={isCurrentHero} />
         </div>
       </li>
     );
   };
 
-  const Button = ({ superHero }) => {
-    if (editMode) {
+  const Button = ({ superHero, isCurrentHero }) => {
+    if (editMode && isCurrentHero) {
       return (
-        <>
-          <button type="button" onClick={handleCancel}>
+        <div className="btn">
+          <button type="button" className="enabled" onClick={handleCancel}>
             Cancel
           </button>
-          <button type="button" onClick={e => handleSave(selectedHero)}>
+          <button type="button" className="enabled" onClick={e => handleSave(selectedHero)}>
             Save
           </button>
-        </>
+        </div>
       );
     } else {
       const savedHeroIds = mySavedSuperHeros.map(hero => hero.id);
@@ -175,9 +176,9 @@ function App() {
       return (
         <>
           {alreadySaved && !superHero.userId ? (
-            <button className="saved">Saved</button>
+            <button className="disabled">Saved</button>
           ) : (
-            <button className="nonsaved" onClick={e => handleEdit(superHero)}>
+            <button className="enabled" onClick={e => handleEdit(superHero)}>
               Edit
             </button>
           )}
@@ -189,12 +190,30 @@ function App() {
   const ShowPowerStats = ({ powerstats }) => {
     return (
       <div className="powerstats">
-        <span>combat: {powerstats.combat}</span>
-        <span>durability: {powerstats.durability}</span>
-        <span>intelligence: {powerstats.intelligence}</span>
-        <span>power: {powerstats.power}</span>
-        <span>speed: {powerstats.speed}</span>
-        <span>strength: {powerstats.strength}</span>
+        <div>
+          <label>combat</label>
+          <span>{powerstats.combat}</span>
+        </div>
+        <div>
+          <label>durability</label>
+          <span>{powerstats.durability}</span>
+        </div>
+        <div>
+          <label>intelligence</label>
+          <span>{powerstats.intelligence}</span>
+        </div>
+        <div>
+          <label>power</label>
+          <span>{powerstats.power}</span>
+        </div>
+        <div>
+          <label>speed</label>
+          <span>{powerstats.speed}</span>
+        </div>
+        <div>
+          <label>strength</label>
+          <span>{powerstats.strength}</span>
+        </div>
       </div>
     );
   };
@@ -202,54 +221,59 @@ function App() {
   const EditPowerStats = ({ powerstats, updatePowerStat }) => {
     return (
       <div className="powerstats">
-        <span>
-          combat:{" "}
+        <div>
+          <label>combat: </label>
           <input
             type="text"
             value={powerstats.combat}
             onChange={event => updatePowerStat({ combat: event.target.value })}
           />
-        </span>
-        <span>
-          durability:{" "}
+        </div>
+
+        <div>
+          <label>durability:</label>
           <input
             type="text"
             value={powerstats.durability}
             onChange={event => updatePowerStat({ durability: event.target.value })}
           />
-        </span>
-        <span>
-          intelligence:{" "}
+        </div>
+
+        <div>
+          <label>intelligence</label>
           <input
             type="text"
             value={powerstats.intelligence}
             onChange={event => updatePowerStat({ intelligence: event.target.value })}
           />
-        </span>
-        <span>
-          power:{" "}
+        </div>
+
+        <div>
+          <label>power</label>
           <input
             type="text"
             value={powerstats.power}
             onChange={event => updatePowerStat({ power: event.target.value })}
           />
-        </span>
-        <span>
-          speed:{" "}
+        </div>
+
+        <div>
+          <label>speed</label>
           <input
             type="text"
             value={powerstats.speed}
             onChange={event => updatePowerStat({ speed: event.target.value })}
           />
-        </span>
-        <span>
-          strength:{" "}
+        </div>
+
+        <div>
+          <label>strength</label>
           <input
             type="text"
             value={powerstats.strength}
             onChange={event => updatePowerStat({ strength: event.target.value })}
           />
-        </span>
+        </div>
       </div>
     );
   };

@@ -54,11 +54,13 @@
   align-self: start;
 }
 
-.superhero div {
+.superhero .superhero-detail {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 0.4rem 0;
+  /* align-items: center; */
+  align-content: center;
 }
 
 .superhero h3 {
@@ -73,17 +75,52 @@
   margin-bottom: auto;
 }
 
-.superhero span {
-  display: block;
-  font-size: 1.3rem;
-}
-
-.superhero .powerstats {
+.powerstats {
   display: flex;
   flex-direction: column;
+  gap: 5px;
 }
 
-.superhero button {
+.powerstats div {
+  display: flex;
+  align-items: center;
+}
+
+.powerstats label {
+  width: 60px;
+  text-align: center;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.powerstats span {
+  width: 50px;
+  text-align: center;
+}
+
+.powerstats input {
+  width: 50px;
+  text-align: center;
+}
+
+.btn {
+  display: flex;
+  flex-direction: row;
+  gap: 2.8em;
+}
+
+.disabled {
+  pointer-events: none;
+  background-color: #ccc;
+  color: #424141;
+  cursor: not-allowed;
+  border-radius: 5%;
+  font-weight: 500;
+  font-size: 1.4rem;
+  padding: 1rem 2rem;
+}
+
+.enabled {
   color: inherit;
   font-family: inherit;
   border: none;
@@ -91,14 +128,9 @@
   font-size: 1.4rem;
   font-weight: 500;
   background-color: #edc84b;
-  padding: 1rem 3rem;
+  padding: 1rem 2rem;
   cursor: pointer;
   transition: all 0.2s;
-}
-
-.superhero .btn {
-  display: flex;
-  flex-direction: row;
 }
 
 .search {
