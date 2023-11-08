@@ -16,6 +16,13 @@ function App() {
 
   const searchSuperHeros = async () => {
     console.log(`start to search super heros by :${searchKey}`);
+    if (!searchKey || searchKey.length === 0) {
+      console.log("no search key provided.");
+      setSuperHeros([]);
+      setEditMode(false);
+      return;
+    }
+
     try {
       const searchResult = await API.graphql(graphqlOperation(searchSuperheroes, { name: searchKey }));
       console.log(`search by ${searchKey}, result is ${JSON.stringify(searchResult)}`);
@@ -133,16 +140,16 @@ function App() {
   };
 
   const SuperHero = ({ superhero }) => {
-    // console.log(`superHero: ${JSON.stringify(superhero)}, selectedSuperHero: ${JSON.stringify(selectedHero)}`);
+    const powerstats = selectedHero.id === superhero.id ? selectedHero.powerstats : superhero.powerstats;
     return (
       <li className="superhero">
         <img src={superhero.image.url} alt="SuperHero" />
         <div>
           <h3>{superhero.name}</h3>
-          {editMode && selectedHero.id === superhero.id ? (
-            <EditPowerStats powerstats={selectedHero.powerstats} updatePowerStat={updatePowerStat} />
+          {editMode ? (
+            <EditPowerStats powerstats={powerstats} updatePowerStat={updatePowerStat} />
           ) : (
-            <ShowPowerStats powerstats={superhero.powerstats} />
+            <ShowPowerStats powerstats={powerstats} />
           )}
           <Button className="btn" superHero={superhero} />
         </div>
@@ -167,7 +174,7 @@ function App() {
       const alreadySaved = savedHeroIds.includes(superHero.id);
       return (
         <>
-          {alreadySaved ? (
+          {alreadySaved && !superHero.userId ? (
             <button className="saved">Saved</button>
           ) : (
             <button className="nonsaved" onClick={e => handleEdit(superHero)}>

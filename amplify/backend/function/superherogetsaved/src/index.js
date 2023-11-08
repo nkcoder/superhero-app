@@ -5,7 +5,8 @@ const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
 exports.handler = async event => {
-  console.log(`Event received: ${JSON.stringify(event)}`);
+  const env = process.env.ENV;
+  console.log(`Event received: ${JSON.stringify(event)}, env: ${env}`);
 
   const userId = Number(event.arguments.userId);
   console.log(`userId = ${userId}`);
@@ -16,7 +17,7 @@ exports.handler = async event => {
     },
     ProjectionExpression: "id, #name, image, powerstats, userId",
     ExpressionAttributeNames: { "#name": "name" },
-    TableName: "superherodb-dev",
+    TableName: `superherodb-${env}`,
   });
 
   const response = await docClient.send(scanCommand);
