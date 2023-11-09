@@ -165,7 +165,7 @@ function App({ user, signOut }) {
       const alreadySaved = savedHeroIds.includes(superHero.id);
       return (
         <>
-          {alreadySaved && !superHero.userId ? (
+          {alreadySaved && !superHero.username ? (
             <button className="disabled">Saved</button>
           ) : (
             <button className="enabled" onClick={e => handleEdit(superHero)}>
