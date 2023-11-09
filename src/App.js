@@ -1,7 +1,7 @@
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { useState } from "react";
-import { Amplify, API, graphqlOperation, Auth } from "aws-amplify";
+import { Amplify, API, graphqlOperation } from "aws-amplify";
 import { searchSuperheroes, getSavedSuperheroes } from "./graphql/queries.js";
 import { savedSuperhero } from "./graphql/mutations.js";
 import { Search } from "./ui-components/search/Search.js";
@@ -267,12 +267,14 @@ function App({ user, signOut }) {
   };
 
   return (
-    <div className="main">
-      <Header />
-      <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
-      <SuperHeros superheros={superHeros} />
+    <>
       <Authentication user={user} signOut={signOut} />
-    </div>
+      <div className="main">
+        <Header />
+        <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
+        <SuperHeros superheros={superHeros} />
+      </div>
+    </>
   );
 }
 

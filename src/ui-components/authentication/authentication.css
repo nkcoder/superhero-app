@@ -1,13 +1,14 @@
 .authentication {
-  padding-top: 0rem;
   display: flex;
-  gap: 2.3em;
+  gap: 1.5rem;
   align-items: center;
+  justify-content: flex-end;
+  padding: 2.5rem;
 }
 
 .authentication p {
-  font-size: 12px;
-  text-decoration: underline;
+  font-size: 14px;
+  font-weight: 500;
 }
 
 .authentication button {
