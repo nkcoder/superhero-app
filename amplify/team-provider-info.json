@@ -37,6 +37,9 @@
       },
       "storage": {
         "superherodb": {}
+      },
+      "auth": {
+        "superheroapp93d2b873": {}
       }
     }
   }
