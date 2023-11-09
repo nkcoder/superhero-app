@@ -25,11 +25,11 @@
         },
         "superherosave": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",
-          "s3Key": "amplify-builds/superherosave-79456f375a704b393651-build.zip"
+          "s3Key": "amplify-builds/superherosave-61377a66426b77326b70-build.zip"
         },
         "superherogetsaved": {
           "deploymentBucketName": "amplify-superheroapp-dev-202710-deployment",
-          "s3Key": "amplify-builds/superherogetsaved-31792b2b495951367746-build.zip"
+          "s3Key": "amplify-builds/superherogetsaved-55466649736d42707049-build.zip"
         }
       },
       "api": {

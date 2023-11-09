@@ -14,7 +14,7 @@ describe("Lambda Tests: get saved super heroes", () => {
   it("should get saved super heros from DynamoDB", async () => {
     const event = {
       arguments: {
-        userId: "123",
+        username: "daniel",
       },
     };
 
@@ -56,7 +56,7 @@ describe("Lambda Tests: get saved super heroes", () => {
     ddbMock.on(ScanCommand).rejects(() => new Error("error"));
     const event = {
       arguments: {
-        userId: "123",
+        username: "daniel",
       },
     };
 
