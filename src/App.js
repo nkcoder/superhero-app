@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Amplify, API, graphqlOperation } from "aws-amplify";
 import { searchSuperheroes, getSavedSuperheroes } from "./graphql/queries.js";
 import { savedSuperhero } from "./graphql/mutations.js";
+import { Search } from "./ui-components/search/Search.js";
 
 import awsExports from "./aws-exports.js";
 Amplify.configure(awsExports);
@@ -73,21 +74,6 @@ function App() {
     } catch (err) {
       console.log("error getting my super heroes", err);
     }
-  };
-
-  const Search = ({ searchSuperHeros }) => {
-    const [keyword, setKeyword] = useState("");
-    return (
-      <div className="search">
-        <input value={keyword} onChange={e => setKeyword(e.target.value)} />
-        <button type="button" onClick={() => searchSuperHeros(keyword)}>
-          Search
-        </button>
-        <button type="button" onClick={getMySuperHeros}>
-          Get my super heros
-        </button>
-      </div>
-    );
   };
 
   const SuperHeros = ({ superheros }) => {
@@ -280,7 +266,7 @@ function App() {
   return (
     <div className="main">
       <Header />
-      <Search searchSuperHeros={searchSuperHeros} />
+      <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
       <SuperHeros superheros={superHeros} />
     </div>
   );
