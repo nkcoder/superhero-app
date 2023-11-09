@@ -8,15 +8,14 @@ import awsExports from "./aws-exports.js";
 Amplify.configure(awsExports);
 
 function App() {
-  const [searchKey, setSearchKey] = useState("");
   const [superHeros, setSuperHeros] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedHero, setSelectedHero] = useState({});
   const [mySavedSuperHeros, setMySavedSuperHeros] = useState([]);
 
-  const searchSuperHeros = async () => {
-    console.log(`start to search super heros by :${searchKey}`);
-    if (!searchKey || searchKey.length === 0) {
+  const searchSuperHeros = async keyword => {
+    console.log(`start to search super heros by: ${keyword}`);
+    if (!keyword || keyword.length === 0) {
       console.log("no search key provided.");
       setSuperHeros([]);
       setEditMode(false);
@@ -24,8 +23,8 @@ function App() {
     }
 
     try {
-      const searchResult = await API.graphql(graphqlOperation(searchSuperheroes, { name: searchKey }));
-      console.log(`search by ${searchKey}, result is ${JSON.stringify(searchResult)}`);
+      const searchResult = await API.graphql(graphqlOperation(searchSuperheroes, { name: keyword }));
+      console.log(`search by ${keyword}, result is ${JSON.stringify(searchResult)}`);
       setSuperHeros(searchResult.data.searchSuperheroes);
       setEditMode(false);
     } catch (err) {
@@ -77,11 +76,11 @@ function App() {
   };
 
   const Search = ({ searchSuperHeros }) => {
-    console.log(`Search is rendering`);
+    const [keyword, setKeyword] = useState("");
     return (
       <div className="search">
-        <input value={searchKey} onChange={e => setSearchKey(e.target.value)} />
-        <button type="button" onClick={() => searchSuperHeros(searchKey)}>
+        <input value={keyword} onChange={e => setKeyword(e.target.value)} />
+        <button type="button" onClick={() => searchSuperHeros(keyword)}>
           Search
         </button>
         <button type="button" onClick={getMySuperHeros}>
@@ -281,7 +280,7 @@ function App() {
   return (
     <div className="main">
       <Header />
-      <Search searchKey={searchKey} searchSuperHeros={searchSuperHeros} />
+      <Search searchSuperHeros={searchSuperHeros} />
       <SuperHeros superheros={superHeros} />
     </div>
   );
