@@ -12,6 +12,7 @@ import { Authentication } from "./ui-components/authentication/authentication.js
 Amplify.configure(awsExports);
 
 function App({ user, signOut }) {
+  console.log(`user: ${user.username}`);
   const [superHeros, setSuperHeros] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedHero, setSelectedHero] = useState({});
@@ -268,7 +269,7 @@ function App({ user, signOut }) {
 
   return (
     <>
-      <Authentication user={user} signOut={signOut} />
+      <Authentication username={user.username} signOut={signOut} />
       <div className="main">
         <Header />
         <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
