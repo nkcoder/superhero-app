@@ -1,0 +1,27 @@
+.authentication {
+  padding-top: 0rem;
+  display: flex;
+  gap: 2.3em;
+  align-items: center;
+}
+
+.authentication p {
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.authentication button {
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #edb705;
+  padding: 0.5rem 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.authentication button:hover {
+  background-color: #edb705;
+}

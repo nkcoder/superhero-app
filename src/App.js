@@ -1,14 +1,17 @@
 import "./App.css";
+import "@aws-amplify/ui-react/styles.css";
 import { useState } from "react";
-import { Amplify, API, graphqlOperation } from "aws-amplify";
+import { Amplify, API, graphqlOperation, Auth } from "aws-amplify";
 import { searchSuperheroes, getSavedSuperheroes } from "./graphql/queries.js";
 import { savedSuperhero } from "./graphql/mutations.js";
 import { Search } from "./ui-components/search/Search.js";
+import { withAuthenticator } from "@aws-amplify/ui-react";
 
 import awsExports from "./aws-exports.js";
+import { Authentication } from "./ui-components/authentication/authentication.js";
 Amplify.configure(awsExports);
 
-function App() {
+function App({ user, signOut }) {
   const [superHeros, setSuperHeros] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedHero, setSelectedHero] = useState({});
@@ -268,6 +271,7 @@ function App() {
       <Header />
       <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
       <SuperHeros superheros={superHeros} />
+      <Authentication user={user} signOut={signOut} />
     </div>
   );
 }
@@ -280,4 +284,5 @@ const Header = () => {
   );
 };
 
-export default App;
+// export default App;
+export default withAuthenticator(App);
