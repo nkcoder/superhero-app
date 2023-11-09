@@ -8,25 +8,23 @@ exports.handler = async event => {
   const env = process.env.ENV;
   console.log(`event received: ${JSON.stringify(event)}, env: ${env}`);
 
-  const { userId, updateSuperHeroReq } = { ...event.arguments };
-  const { id, image, name, powerstats } = { ...updateSuperHeroReq };
+  const { username, updateSuperHeroReq } = { ...event.arguments };
+  const { id } = { ...updateSuperHeroReq };
   const command = new PutCommand({
     TableName: `superherodb-${env}`,
     Item: {
+      ...updateSuperHeroReq,
       id: Number(id),
-      name: name,
-      powerstats: powerstats,
-      image: image,
-      userId: Number(userId),
+      username: username,
     },
   });
 
   try {
     const response = await docClient.send(command);
-    console.log(`put item response: ${response}`);
+    console.log(`Save super hero for: ${username}, response: ${JSON.stringify(response)}`);
+    return true;
   } catch (err) {
-    console.error(err);
+    console.error(`Error saving super hero for: ${username}`, err);
     return false;
   }
-  return true;
 };

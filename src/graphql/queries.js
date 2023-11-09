@@ -24,10 +24,10 @@ export const searchSuperheroes = /* GraphQL */ `
   }
 `;
 export const getSavedSuperheroes = /* GraphQL */ `
-  query GetSavedSuperheroes($userId: String!) {
-    getSavedSuperheroes(userId: $userId) {
+  query GetSavedSuperheroes($username: String!) {
+    getSavedSuperheroes(username: $username) {
       id
-      userId
+      username
       name
       image {
         url

@@ -8,24 +8,23 @@ exports.handler = async event => {
   const env = process.env.ENV;
   console.log(`Event received: ${JSON.stringify(event)}, env: ${env}`);
 
-  const userId = Number(event.arguments.userId);
-  console.log(`userId = ${userId}`);
+  const { username } = { ...event.arguments };
   const scanCommand = new ScanCommand({
-    FilterExpression: "userId = :userId",
+    FilterExpression: "username = :username",
     ExpressionAttributeValues: {
-      ":userId": userId,
+      ":username": username,
     },
-    ProjectionExpression: "id, #name, image, powerstats, userId",
+    ProjectionExpression: "id, #name, image, powerstats, username",
     ExpressionAttributeNames: { "#name": "name" },
     TableName: `superherodb-${env}`,
   });
 
   try {
     const response = await docClient.send(scanCommand);
-    console.log(`scan response: ${JSON.stringify(response)}`);
+    console.log(`Get saved super heroes for: ${username}, response: ${JSON.stringify(response)}`);
     return response.Items;
   } catch (err) {
-    console.log(err);
+    console.error(`Error getting saved super heroes for ${username}`, err);
     return [];
   }
 };

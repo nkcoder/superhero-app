@@ -1,5 +1,4 @@
 const { handler } = require("./index"); // Import your Lambda function
-const AWS = require("aws-sdk-mock");
 
 const { mockClient } = require("aws-sdk-client-mock");
 const { DynamoDBDocumentClient, PutCommand } = require("@aws-sdk/lib-dynamodb");
@@ -14,7 +13,7 @@ describe("Lambda Tests: update and super here", () => {
   it("should update a superhero in DynamoDB", async () => {
     const event = {
       arguments: {
-        userId: "123",
+        username: "daniel",
         updateSuperHeroReq: {
           id: "456",
           image: "superman.jpg",
@@ -41,7 +40,7 @@ describe("Lambda Tests: update and super here", () => {
     ddbMock.on(PutCommand).rejects(() => new Error("error"));
     const event = {
       arguments: {
-        userId: "123",
+        username: "daniel",
         updateSuperHeroReq: {
           id: "456",
           image: "superman.jpg",
@@ -59,7 +58,6 @@ describe("Lambda Tests: update and super here", () => {
     };
 
     const response = await handler(event);
-    // Depending on your Lambda function's error handling, you can write assertions here
     expect(response).toEqual(false);
   });
 });

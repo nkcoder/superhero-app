@@ -12,7 +12,9 @@ import { Authentication } from "./ui-components/authentication/authentication.js
 Amplify.configure(awsExports);
 
 function App({ user, signOut }) {
-  console.log(`user: ${user.username}`);
+  const { username } = user;
+  console.log(`Current user: ${username}`);
+
   const [superHeros, setSuperHeros] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [selectedHero, setSelectedHero] = useState({});
@@ -38,7 +40,6 @@ function App({ user, signOut }) {
   };
 
   const saveSuperHeros = async () => {
-    console.log(`start to save your super hero: ${JSON.stringify(selectedHero)}`);
     const updateSuperHeroReq = {
       id: selectedHero.id,
       name: selectedHero.name,
@@ -56,22 +57,22 @@ function App({ user, signOut }) {
     };
     try {
       console.log(`start to save your super hero: ${JSON.stringify(updateSuperHeroReq)}`);
-      await API.graphql(
+      const saved = await API.graphql(
         graphqlOperation(savedSuperhero, {
-          userId: 1,
+          username: username,
           updateSuperHeroReq: updateSuperHeroReq,
         })
       );
+      console.log(`Super hero is saved: ${saved}.`);
     } catch (err) {
-      console.log("error saving your super heros", err);
+      console.error("error saving your super heros", err);
     }
   };
 
   const getMySuperHeros = async () => {
-    const userId = 1;
     try {
-      const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { userId: userId }));
-      console.log(`get super heros of ${userId}, result is ${JSON.stringify(mySuperHeroes)}`);
+      const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { username: username }));
+      console.log(`get super heros of ${username}, result is ${JSON.stringify(mySuperHeroes)}`);
       setMySavedSuperHeros(mySuperHeroes.data.getSavedSuperheroes);
       setSuperHeros(mySavedSuperHeros);
       setEditMode(false);

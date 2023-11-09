@@ -47,7 +47,7 @@ Then you should be able to access the application: `http://localhost:3000/`.
 - 2. Please update to your own [Super Hero API access key](./amplify/backend/function/superheroremoteapi/src/index.js)
 
 ```bash
-auto/publish
+auto/deploy
 ```
 
 My test environment on AWS: https://dev.d1psk6i91gcajq.amplifyapp.com/
