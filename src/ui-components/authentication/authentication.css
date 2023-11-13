@@ -2,7 +2,7 @@
   display: flex;
   gap: 1.5rem;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
   padding: 2.5rem;
 }
 
@@ -24,5 +24,5 @@
 }
 
 .authentication button:hover {
-  background-color: #edb705;
+  background-color: #f8c210;
 }

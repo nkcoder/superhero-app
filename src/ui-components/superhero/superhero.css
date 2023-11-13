@@ -1,0 +1,92 @@
+.superhero {
+  display: flex;
+  gap: 3.2rem;
+}
+
+.superhero img {
+  width: 12rem;
+  aspect-ratio: 1;
+  align-self: start;
+}
+
+.superhero .superhero-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  /* align-items: center; */
+  align-content: center;
+}
+
+.superhero h3 {
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.superhero p {
+  font-size: 1.4rem;
+  font-weight: 300;
+  font-style: italic;
+  margin-bottom: auto;
+}
+
+.powerstats {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.powerstats div {
+  display: flex;
+  align-items: center;
+}
+
+.powerstats label {
+  width: 60px;
+  text-align: center;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.powerstats span {
+  width: 50px;
+  text-align: center;
+}
+
+.powerstats input {
+  width: 50px;
+  text-align: center;
+}
+
+.superhero .btn {
+  display: flex;
+  flex-direction: row;
+  gap: 0.8rem;
+  justify-content: space-around;
+}
+
+.superhero .btn button {
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  border-radius: 0%;
+  font-size: 1.2rem;
+  font-weight: 500;
+  background-color: #edc84b;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.superhero .btn-edit {
+  color: inherit;
+  font-family: inherit;
+  border: none;
+  border-radius: 0%;
+  font-size: 1.4rem;
+  font-weight: 500;
+  background-color: #edc84b;
+  padding: 1rem 2rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
