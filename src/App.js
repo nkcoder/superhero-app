@@ -1,14 +1,14 @@
 import "./App.css";
 import "@aws-amplify/ui-react/styles.css";
 import { useState } from "react";
-import { Amplify, API, graphqlOperation } from "aws-amplify";
-import { searchSuperheroes, getSavedSuperheroes } from "./graphql/queries.js";
-import { savedSuperhero } from "./graphql/mutations.js";
-import { Search } from "./ui-components/search/Search.js";
+import { Amplify } from "aws-amplify";
 import { withAuthenticator } from "@aws-amplify/ui-react";
+import SuperHeroes from "./ui-components/superheroes/SuperHeroes.js";
+import Search from "./ui-components/search/Search.js";
 
 import awsExports from "./aws-exports.js";
 import { Authentication } from "./ui-components/authentication/authentication.js";
+import MySuperHeroes from "./ui-components/mysuperheroes/MySuperHeroes.js";
 Amplify.configure(awsExports);
 
 function App({ user, signOut }) {
@@ -16,265 +16,23 @@ function App({ user, signOut }) {
   console.log(`Current user: ${username}`);
 
   const [superHeros, setSuperHeros] = useState([]);
-  const [editMode, setEditMode] = useState(false);
-  const [selectedHero, setSelectedHero] = useState({});
-  const [mySavedSuperHeros, setMySavedSuperHeros] = useState([]);
 
-  const searchSuperHeros = async keyword => {
-    console.log(`start to search super heros by: ${keyword}`);
-    if (!keyword || keyword.length === 0) {
-      console.log("no search key provided.");
-      setSuperHeros([]);
-      setEditMode(false);
-      return;
-    }
-
-    try {
-      const searchResult = await API.graphql(graphqlOperation(searchSuperheroes, { name: keyword }));
-      console.log(`search by ${keyword}, result is ${JSON.stringify(searchResult)}`);
-      setSuperHeros(searchResult.data.searchSuperheroes);
-      setEditMode(false);
-    } catch (err) {
-      console.log("error searching super heros", err);
-    }
+  const handleSearch = superheroes => {
+    setSuperHeros(superheroes);
   };
 
-  const saveSuperHeros = async () => {
-    const updateSuperHeroReq = {
-      id: selectedHero.id,
-      name: selectedHero.name,
-      image: {
-        url: selectedHero.image.url,
-      },
-      powerstats: {
-        combat: selectedHero.powerstats.combat,
-        durability: selectedHero.powerstats.durability,
-        intelligence: selectedHero.powerstats.intelligence,
-        power: selectedHero.powerstats.power,
-        speed: selectedHero.powerstats.speed,
-        strength: selectedHero.powerstats.strength,
-      },
-    };
-    try {
-      console.log(`start to save your super hero: ${JSON.stringify(updateSuperHeroReq)}`);
-      const saved = await API.graphql(
-        graphqlOperation(savedSuperhero, {
-          username: username,
-          updateSuperHeroReq: updateSuperHeroReq,
-        })
-      );
-      console.log(`Super hero is saved: ${saved}.`);
-    } catch (err) {
-      console.error("error saving your super heros", err);
-    }
-  };
-
-  const getMySuperHeros = async () => {
-    try {
-      const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { username: username }));
-      console.log(`get super heros of ${username}, result is ${JSON.stringify(mySuperHeroes)}`);
-      setMySavedSuperHeros(mySuperHeroes.data.getSavedSuperheroes);
-      setSuperHeros(mySavedSuperHeros);
-      setEditMode(false);
-    } catch (err) {
-      console.log("error getting my super heroes", err);
-    }
-  };
-
-  const SuperHeros = ({ superheros }) => {
-    if (superheros.length === 0) {
-      return <h3>No super heros found, please try something else.</h3>;
-    }
-
-    const superHeros = superheros.map(hero => <SuperHero key={hero.id} superhero={hero} />);
-
-    return <ul className="superheros">{superHeros}</ul>;
-  };
-
-  const updatePowerStat = updatedData => {
-    console.log(`select hero before: ${JSON.stringify(selectedHero)}`);
-    setSelectedHero({
-      ...selectedHero,
-      powerstats: {
-        ...selectedHero.powerstats,
-        ...updatedData,
-      },
-    });
-    const selectedHeroAfter = {
-      ...selectedHero,
-      powerstats: {
-        ...selectedHero.powerstats,
-        ...updatedData,
-      },
-    };
-    console.log(`selected hero after: ${JSON.stringify(selectedHeroAfter)}`);
-  };
-
-  const handleCancel = () => {
-    setEditMode(false);
-    setSelectedHero({});
-  };
-
-  const handleSave = superHero => {
-    setSelectedHero(superHero);
-    console.log(`editMode: ${editMode}`);
-
-    saveSuperHeros(selectedHero);
-
-    setEditMode(false);
-  };
-
-  const handleEdit = superHero => {
-    setSelectedHero(superHero);
-    setEditMode(true);
-  };
-
-  const SuperHero = ({ superhero }) => {
-    const isCurrentHero = selectedHero.id === superhero.id;
-    const powerstats = isCurrentHero ? selectedHero.powerstats : superhero.powerstats;
-    return (
-      <li className="superhero">
-        <img src={superhero.image.url} alt="SuperHero" />
-        <div className="superhero-detail">
-          <h3>{superhero.name}</h3>
-          {editMode && isCurrentHero ? (
-            <EditPowerStats powerstats={powerstats} updatePowerStat={updatePowerStat} />
-          ) : (
-            <ShowPowerStats powerstats={powerstats} />
-          )}
-          <Button superHero={superhero} isCurrentHero={isCurrentHero} />
-        </div>
-      </li>
-    );
-  };
-
-  const Button = ({ superHero, isCurrentHero }) => {
-    if (editMode && isCurrentHero) {
-      return (
-        <div className="btn">
-          <button type="button" className="enabled" onClick={handleCancel}>
-            Cancel
-          </button>
-          <button type="button" className="enabled" onClick={e => handleSave(selectedHero)}>
-            Save
-          </button>
-        </div>
-      );
-    } else {
-      const savedHeroIds = mySavedSuperHeros.map(hero => hero.id);
-      const alreadySaved = savedHeroIds.includes(superHero.id);
-      return (
-        <>
-          {alreadySaved && !superHero.username ? (
-            <button className="disabled">Saved</button>
-          ) : (
-            <button className="enabled" onClick={e => handleEdit(superHero)}>
-              Edit
-            </button>
-          )}
-        </>
-      );
-    }
-  };
-
-  const ShowPowerStats = ({ powerstats }) => {
-    return (
-      <div className="powerstats">
-        <div>
-          <label>combat</label>
-          <span>{powerstats.combat}</span>
-        </div>
-        <div>
-          <label>durability</label>
-          <span>{powerstats.durability}</span>
-        </div>
-        <div>
-          <label>intelligence</label>
-          <span>{powerstats.intelligence}</span>
-        </div>
-        <div>
-          <label>power</label>
-          <span>{powerstats.power}</span>
-        </div>
-        <div>
-          <label>speed</label>
-          <span>{powerstats.speed}</span>
-        </div>
-        <div>
-          <label>strength</label>
-          <span>{powerstats.strength}</span>
-        </div>
-      </div>
-    );
-  };
-
-  const EditPowerStats = ({ powerstats, updatePowerStat }) => {
-    return (
-      <div className="powerstats">
-        <div>
-          <label>combat: </label>
-          <input
-            type="text"
-            value={powerstats.combat}
-            onChange={event => updatePowerStat({ combat: event.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>durability:</label>
-          <input
-            type="text"
-            value={powerstats.durability}
-            onChange={event => updatePowerStat({ durability: event.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>intelligence</label>
-          <input
-            type="text"
-            value={powerstats.intelligence}
-            onChange={event => updatePowerStat({ intelligence: event.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>power</label>
-          <input
-            type="text"
-            value={powerstats.power}
-            onChange={event => updatePowerStat({ power: event.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>speed</label>
-          <input
-            type="text"
-            value={powerstats.speed}
-            onChange={event => updatePowerStat({ speed: event.target.value })}
-          />
-        </div>
-
-        <div>
-          <label>strength</label>
-          <input
-            type="text"
-            value={powerstats.strength}
-            onChange={event => updatePowerStat({ strength: event.target.value })}
-          />
-        </div>
-      </div>
-    );
+  const handleMySuperHeroes = mySuperHeroes => {
+    setSuperHeros(mySuperHeroes);
   };
 
   return (
     <>
       <Authentication username={user.username} signOut={signOut} />
+      <MySuperHeroes username={username} handleMySuperHeroes={handleMySuperHeroes} />
       <div className="main">
         <Header />
-        <Search searchSuperHeros={searchSuperHeros} getMySuperHeros={getMySuperHeros} />
-        <SuperHeros superheros={superHeros} />
+        <Search handleSearch={handleSearch} />
+        <SuperHeroes superheros={superHeros} username={username} />
       </div>
     </>
   );
@@ -288,5 +46,4 @@ const Header = () => {
   );
 };
 
-// export default App;
 export default withAuthenticator(App);
