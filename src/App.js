@@ -7,8 +7,7 @@ import SuperHeroes from "./ui-components/superheroes/SuperHeroes.js";
 import Search from "./ui-components/search/Search.js";
 
 import awsExports from "./aws-exports.js";
-import { Authentication } from "./ui-components/authentication/authentication.js";
-import MySuperHeroes from "./ui-components/mysuperheroes/MySuperHeroes.js";
+import { CurrentUser } from "./ui-components/current-user/CurrentUser.js";
 import { UserNameContextProvider } from "./ui-components/ContextProvider.js";
 Amplify.configure(awsExports);
 
@@ -29,8 +28,7 @@ function App({ user, signOut }) {
   return (
     <>
       <UserNameContextProvider username={username}>
-        <Authentication signOut={signOut} />
-        <MySuperHeroes handleMySuperHeroes={handleMySuperHeroes} />
+        <CurrentUser signOut={signOut} handleMySuperHeroes={handleMySuperHeroes} />
         <div className="main">
           <Header />
           <Search handleSearch={handleSearch} />
@@ -44,7 +42,7 @@ function App({ user, signOut }) {
 const Header = () => {
   return (
     <header className="header">
-      <h1>Super Heros</h1>
+      <h1>Super Heroes</h1>
     </header>
   );
 };
