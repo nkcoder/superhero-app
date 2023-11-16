@@ -9,6 +9,7 @@ import Search from "./ui-components/search/Search.js";
 import awsExports from "./aws-exports.js";
 import { Authentication } from "./ui-components/authentication/authentication.js";
 import MySuperHeroes from "./ui-components/mysuperheroes/MySuperHeroes.js";
+import { UserNameContextProvider } from "./ui-components/ContextProvider.js";
 Amplify.configure(awsExports);
 
 function App({ user, signOut }) {
@@ -27,13 +28,15 @@ function App({ user, signOut }) {
 
   return (
     <>
-      <Authentication username={user.username} signOut={signOut} />
-      <MySuperHeroes username={username} handleMySuperHeroes={handleMySuperHeroes} />
-      <div className="main">
-        <Header />
-        <Search handleSearch={handleSearch} />
-        <SuperHeroes superheros={superHeros} username={username} />
-      </div>
+      <UserNameContextProvider username={username}>
+        <Authentication signOut={signOut} />
+        <MySuperHeroes handleMySuperHeroes={handleMySuperHeroes} />
+        <div className="main">
+          <Header />
+          <Search handleSearch={handleSearch} />
+          <SuperHeroes superheros={superHeros} />
+        </div>
+      </UserNameContextProvider>
     </>
   );
 }

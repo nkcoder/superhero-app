@@ -1,8 +1,10 @@
 import { API, graphqlOperation } from "aws-amplify";
 import { getSavedSuperheroes } from "../../graphql/queries.js";
 import "./MySuperHeroes.css";
+import { useUserName } from "../ContextProvider.js";
 
-const MySuperHeroes = ({ username, handleMySuperHeroes }) => {
+const MySuperHeroes = ({ handleMySuperHeroes }) => {
+  const username = useUserName();
   const handleOnClick = async () => {
     try {
       const mySuperHeroes = await API.graphql(graphqlOperation(getSavedSuperheroes, { username: username }));

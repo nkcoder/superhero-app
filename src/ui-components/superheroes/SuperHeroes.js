@@ -1,7 +1,9 @@
 import "./SuperHeroes.css";
 import SuperHero from "../superhero/superhero.js";
+import { useUserName } from "../ContextProvider.js";
 
-const SuperHeroes = ({ superheros, username }) => {
+const SuperHeroes = ({ superheros }) => {
+  const username = useUserName();
   console.log(`SuperHeroes: ${JSON.stringify(superheros)}, username: ${username}`);
   if (superheros.length === 0) {
     return <h3>Give a keyword, and get your super heroes!</h3>;
